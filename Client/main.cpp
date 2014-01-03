@@ -2,13 +2,14 @@
 #include <QApplication>
 #include <stdio.h>
 #include <sys/types.h>
-#include "dirent.h"
+#include <dirent.h>
 #include <qdebug.h>
 
-void scanDir(){
-
+void scanDir()
+{
     DIR *dir = opendir(".");
-    if(dir)
+
+    if (dir)
     {
         struct dirent *ent;
         while((ent = readdir(dir)) != NULL)

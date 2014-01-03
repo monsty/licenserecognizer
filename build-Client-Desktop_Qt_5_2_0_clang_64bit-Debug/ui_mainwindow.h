@@ -14,8 +14,11 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
@@ -28,6 +31,11 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QTreeWidget *treeWidget;
+    QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QLineEdit *lineEdit;
+    QLabel *label;
+    QLabel *label_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -36,17 +44,34 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(400, 300);
+        MainWindow->resize(500, 449);
+        MainWindow->setMinimumSize(QSize(500, 449));
+        MainWindow->setMaximumSize(QSize(500, 449));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         treeWidget = new QTreeWidget(centralWidget);
         new QTreeWidgetItem(treeWidget);
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
-        treeWidget->setGeometry(QRect(10, 10, 381, 221));
+        treeWidget->setGeometry(QRect(10, 10, 461, 141));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(70, 200, 114, 32));
+        pushButton_2 = new QPushButton(centralWidget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(70, 270, 114, 32));
+        lineEdit = new QLineEdit(centralWidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setGeometry(QRect(220, 340, 113, 21));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(100, 340, 111, 21));
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(220, 206, 141, 20));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 22));
+        menuBar->setGeometry(QRect(0, 0, 500, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -74,6 +99,11 @@ public:
         ___qtreewidgetitem1->setText(0, QApplication::translate("MainWindow", "Hello.jpg", 0));
         treeWidget->setSortingEnabled(__sortingEnabled);
 
+        pushButton->setText(QApplication::translate("MainWindow", "Select Picture", 0));
+        pushButton_2->setText(QApplication::translate("MainWindow", "Recognize", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "Number", 0));
+        label->setText(QApplication::translate("MainWindow", "Plate Number :", 0));
+        label_2->setText(QApplication::translate("MainWindow", "file", 0));
     } // retranslateUi
 
 };
