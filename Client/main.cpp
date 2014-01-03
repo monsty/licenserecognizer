@@ -7,7 +7,6 @@
 
 void scanDir(){
 
-    DIR *dir = opendir("/Users/lisan");
     DIR *dir = opendir(".");
     if(dir)
     {
