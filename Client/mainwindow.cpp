@@ -16,6 +16,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open File"),"/path/to/file/",tr("Mp3 Files (*.mp3)"));
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open File"),"/path/to/file/");
     //ui->listWidget->addItems(fileNames);
 }
