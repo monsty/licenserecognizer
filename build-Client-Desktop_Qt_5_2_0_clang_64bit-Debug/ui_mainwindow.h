@@ -67,7 +67,7 @@ public:
         label->setGeometry(QRect(100, 340, 111, 21));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(220, 206, 141, 20));
+        label_2->setGeometry(QRect(200, 200, 241, 31));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -103,7 +103,7 @@ public:
         pushButton_2->setText(QApplication::translate("MainWindow", "Recognize", 0));
         lineEdit->setText(QApplication::translate("MainWindow", "Number", 0));
         label->setText(QApplication::translate("MainWindow", "Plate Number :", 0));
-        label_2->setText(QApplication::translate("MainWindow", "file", 0));
+        label_2->setText(QString());
     } // retranslateUi
 
 };
