@@ -20,7 +20,9 @@ void MainWindow::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
     QStringList parts = fileName.split("/");
+    QPixmap pm(fileName);
 
-    qDebug() << parts.at(parts.size() - 1);
-    ui->label_2->setText(parts.at(parts.size() - 1));
+    //qDebug() << parts.at(parts.size() - 1);
+    //ui->label_2->setText(parts.at(parts.size() - 1));
+    ui->label_2->setPixmap(pm);
 }
