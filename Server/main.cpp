@@ -10,6 +10,9 @@ int main(int argc, char *argv[])
     w.show();
 
     Database db;
+    MyServer s;
+
+    s.StartServer();
 
     return a.exec();
 }

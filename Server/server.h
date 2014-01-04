@@ -1,12 +1,30 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-class Server
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QObject>
+#include <QDebug>
+
+#include "mythread.h"
+
+class MyServer : public QTcpServer
 {
+    Q_OBJECT
+
 public:
-    Server();
-    ~Server();
-    int listening();
+    explicit MyServer(QObject *parent = 0);
+    void StartServer();
+
+signals:
+
+public slots:
+
+private:
+
+protected:
+    void incomingConnection(int socketDescriptor);
+
 };
 
 #endif // SERVER_H
