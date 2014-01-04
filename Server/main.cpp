@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Database db;
+    //Database db;
     MyServer s;
 
     s.StartServer();

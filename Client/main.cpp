@@ -2,11 +2,13 @@
 #include <QApplication>
 #include <stdio.h>
 #include <sys/types.h>
-#include <dirent.h>
+//#include <dirent.h>
 #include <qdebug.h>
+#include "myconnection.h"
 
 void scanDir()
 {
+    /*
     DIR *dir = opendir(".");
 
     if (dir)
@@ -21,6 +23,7 @@ void scanDir()
     {
         fprintf(stderr, "Error opening directory\n");
     }
+    */
 }
 
 int main(int argc, char *argv[])
@@ -29,7 +32,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    scanDir();
+    MyConnection conn;
+    conn.Connect();
+    //scanDir();
 
     return a.exec();
 }

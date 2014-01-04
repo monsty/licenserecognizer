@@ -3,10 +3,12 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QAbstractSocket>
 #include <QObject>
 #include <QDebug>
 
-#include "mythread.h"
+#include "mytask.h"
+#include "myclient.h"
 
 class MyServer : public QTcpServer
 {
@@ -21,9 +23,10 @@ signals:
 public slots:
 
 private:
+    QThreadPool *pool;
 
 protected:
-    void incomingConnection(int socketDescriptor);
+    void incomingConnection(int handle);
 
 };
 

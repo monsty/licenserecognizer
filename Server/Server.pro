@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     server.cpp \
     database.cpp \
-    mythread.cpp
+    myclient.cpp \
+    mytask.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
     database.h \
-    mythread.h
+    myclient.h \
+    mytask.h
 
 FORMS    += mainwindow.ui

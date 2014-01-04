@@ -1,10 +1,10 @@
 #include "server.h"
-#include "mythread.h"
 
 MyServer::MyServer(QObject *parent) :
     QTcpServer(parent)
 {
-
+    pool = new QThreadPool(this);
+    pool->setMaxThreadCount(5);
 }
 
 void MyServer::StartServer()
@@ -19,10 +19,9 @@ void MyServer::StartServer()
     }
 }
 
-void MyServer::incomingConnection(int socketDescriptor)
+void MyServer::incomingConnection(int handle)
 {
-    qDebug() << socketDescriptor << "Connecting...";
-    MyThread *thread = new MyThread(socketDescriptor, this);
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
+    MyClient *client = new MyClient(this);
+    client->SetSocket(handle);
+
 }

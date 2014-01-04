@@ -20,6 +20,8 @@ public slots:
     void readyRead();
     void disconnected();
 
+public slots:
+
 private:
     QTcpSocket *socket;
     int socketDescriptor;
