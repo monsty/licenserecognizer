@@ -3,7 +3,7 @@
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
-
+    isLoggedIn = false;
 }
 
 void MyClient::SetSocket(int Descriptor)
@@ -21,9 +21,6 @@ void MyClient::SetSocket(int Descriptor)
 
 void MyClient::connected()
 {
-    QByteArray Buffer;
-    Buffer.append("Coucou");
-    socket->write(Buffer);
 
 }
 
@@ -34,11 +31,12 @@ void MyClient::disconnected()
 
 void MyClient::readyRead()
 {
-    QByteArray Data = socket->readAll();
+    QByteArray LoginPass = socket->readAll();
+    QList<QByteArray> res = LoginPass.split('\n');
+    qDebug() << " Login: " << res[0];
+    qDebug() << " Pass: " << res[1];
 
-    qDebug() << " Data in: " << Data;
-
-    MyTask *mytask = new MyTask();
+    MyTask *mytask = new MyTask(res[0], res[1]);
     mytask->setAutoDelete(true);
     connect(mytask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
     QThreadPool::globalInstance()->start(mytask);
@@ -47,8 +45,8 @@ void MyClient::readyRead()
 void MyClient::TaskResult(int Number)
 {
     QByteArray Buffer;
-    Buffer.append("\r\nTask Result = ");
     Buffer.append(QString::number(Number));
-
+    if (Number == 1)
+        isLoggedIn = true;
     socket->write(Buffer);
 }

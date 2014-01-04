@@ -10,7 +10,7 @@ class MyTask : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    MyTask();
+    MyTask(QString login, QString pass);
 
 protected:
     void run();
@@ -18,6 +18,9 @@ protected:
 signals:
     void Result(int Number);
 
+private:
+    QString _login;
+    QString _pass;
 };
 
 #endif // MYTASK_H

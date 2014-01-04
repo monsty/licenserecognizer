@@ -11,8 +11,8 @@ Database::Database()
     this->connect();
     this->createTables();
 
-    this->addUser("mOnsty1abc", "azertys");
-    qDebug() << "user login" << this->userLogin("mOnsty1abc", "azertys");
+    this->addUser("logintest", "passtest");
+    //qDebug() << "user login" << this->userLogin("mOnsty1abc", "azertys");
 }
 
 bool Database::connect()

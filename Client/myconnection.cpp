@@ -15,9 +15,9 @@ void MyConnection::Connect()
     {
         qDebug() << "Connected!";
 
-        socket->write("hello !\r\n\r\n");
-
+        socket->write("logintest\npasstest");
         socket->waitForBytesWritten(1000);
+
         socket->waitForReadyRead(3000);
         qDebug() << "Reading: " << socket->bytesAvailable();
 

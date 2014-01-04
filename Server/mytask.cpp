@@ -1,19 +1,26 @@
 #include "mytask.h"
+#include "database.h"
 
-MyTask::MyTask()
+MyTask::MyTask(QString login, QString pass)
 {
+    _login = login;
+    _pass = pass;
 }
 
 void MyTask::run()
 {
-    qDebug() << "Task Started";
+    qDebug() << "Login started";
 
-    int iNumber = 0;
-    for (int i = 0; i < 1000; i++)
+    Database db;
+
+    if (db.userLogin(_login, _pass) == true)
     {
-        iNumber += 1;
+        qDebug() << "Login success";
+        emit Result(1);
     }
-
-    qDebug() << "Task Finished";
-    emit Result(iNumber);
+    else
+    {
+        qDebug() << "Login failed";
+        emit Result(0);
+    }
 }
