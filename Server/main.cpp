@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "server.h"
+#include "database.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -8,9 +9,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Server s;
-
-    s.listening();
+    Database db;
 
     return a.exec();
 }
