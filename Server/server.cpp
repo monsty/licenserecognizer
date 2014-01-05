@@ -3,8 +3,6 @@
 MyServer::MyServer(QObject *parent) :
     QTcpServer(parent)
 {
-    pool = new QThreadPool(this);
-    pool->setMaxThreadCount(5);
 }
 
 void MyServer::StartServer()
@@ -23,5 +21,4 @@ void MyServer::incomingConnection(int handle)
 {
     MyClient *client = new MyClient(this);
     client->SetSocket(handle);
-
 }

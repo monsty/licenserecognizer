@@ -23,7 +23,6 @@ signals:
 public slots:
 
 private:
-    QThreadPool *pool;
 
 protected:
     void incomingConnection(int handle);

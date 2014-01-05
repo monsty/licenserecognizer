@@ -3,7 +3,8 @@
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
-    this->isLoggedIn = false;
+    QThreadPool::globalInstance()->setMaxThreadCount(5);
+    isLoggedIn = false;
 }
 
 void MyClient::SetSocket(int Descriptor)
@@ -47,6 +48,6 @@ void MyClient::TaskResult(int Number)
     QByteArray Buffer;
     Buffer.append(QString::number(Number));
     if (Number == 1)
-        this->isLoggedIn = true;
+        isLoggedIn = true;
     socket->write(Buffer);
 }
