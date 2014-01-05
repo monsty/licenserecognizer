@@ -24,7 +24,7 @@ void MyConnection::Connect()
 
 void MyConnection::Send(QString toSend)
 {
-    socket->write(toSend);
+    socket->write(toSend.toStdString().c_str());
     socket->waitForBytesWritten(1000);
 }
 
