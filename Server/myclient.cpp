@@ -3,6 +3,7 @@
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
+    QThreadPool::globalInstance()->setMaxThreadCount(5);
     isLoggedIn = false;
 }
 
