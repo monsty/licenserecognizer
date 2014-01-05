@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "imageviewer.h"
 #include <qfiledialog.h>
 #include <qdebug.h>
 #include <QFile>
