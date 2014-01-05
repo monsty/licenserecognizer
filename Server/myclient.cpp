@@ -32,11 +32,11 @@ void MyClient::disconnected()
 
 void MyClient::readyRead()
 {
-    QByteArray LoginPass = socket->readAll();
-    if (LoginPass[0] == '1')
+    QByteArray Datas = socket->readAll();
+    if (Datas[0] == '1')
     {
         qDebug() << " Launch login task ";
-        LoginPass = LoginPass.mid(1);
+        QByteArray LoginPass = Datas.mid(1);
         QList<QByteArray> res = LoginPass.split('\n');
         qDebug() << " Login: " << res[0];
         qDebug() << " Pass: " << res[1];
@@ -45,6 +45,11 @@ void MyClient::readyRead()
         logintask->setAutoDelete(true);
         connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
         QThreadPool::globalInstance()->start(logintask);
+    }
+    else if (Datas[0] == '2')
+    {
+        QByteArray Picture = Datas.mid(1);
+        qDebug() << " Launch getPic task ";
     }
     else
     {

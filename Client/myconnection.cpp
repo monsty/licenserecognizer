@@ -28,6 +28,18 @@ void MyConnection::Send(QString toSend)
     socket->waitForBytesWritten(1000);
 }
 
+void MyConnection::SendPic(QString PathPicToSend)
+{
+    QImage image(PathPicToSend);
+
+    //QByteArray ba;
+    //QBuffer buffer(&ba);
+    //image.save(&buffer, PathPicToSend.mid(PathPicToSend.length() - 3).toUpper());
+    //QByteArray ba = qCompress(image.bits());
+    QByteArray ba((char *) image.bits(), image.byteCount());
+    socket->write(ba.prepend("2"));
+}
+
 QString MyConnection::Read()
 {
     socket->waitForReadyRead(3000);

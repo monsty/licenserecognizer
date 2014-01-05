@@ -32,6 +32,6 @@ int main(int argc, char *argv[])
     ConnectionWindow w;
     w.show();
 
-    //Scandir();
+    //scanDir();
     return a.exec();
 }

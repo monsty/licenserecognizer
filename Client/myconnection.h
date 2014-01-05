@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <QImage>
+#include <QBuffer>
 
 class MyConnection : public QObject
 {
@@ -12,6 +14,7 @@ public:
     void Connect();
     void Disconnect();
     void Send(QString toSend);
+    void SendPic(QString PathPicToSend);
     QString Read();
 
 signals:
