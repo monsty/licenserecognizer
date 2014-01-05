@@ -17,12 +17,16 @@ SOURCES += main.cpp\
     server.cpp \
     database.cpp \
     myclient.cpp \
-    logintask.cpp
+    logintask.cpp \
+    getpictask.cpp \
+    analyzepictask.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
     database.h \
     myclient.h \
-    logintask.h
+    logintask.h \
+    getpictask.h \
+    analyzepictask.h
 
 FORMS    += mainwindow.ui

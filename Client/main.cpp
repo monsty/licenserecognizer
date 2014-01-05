@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     MyConnection conn;
     conn.Connect();
-    conn.Send("logintest\npasstest");
+    conn.Send("1logintest\npasstest");
     conn.Read();
     conn.Disconnect();
     //scanDir();

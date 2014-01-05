@@ -33,14 +33,23 @@ void MyClient::disconnected()
 void MyClient::readyRead()
 {
     QByteArray LoginPass = socket->readAll();
-    QList<QByteArray> res = LoginPass.split('\n');
-    qDebug() << " Login: " << res[0];
-    qDebug() << " Pass: " << res[1];
+    if (LoginPass[0] == '1')
+    {
+        qDebug() << " Launch login task ";
+        LoginPass = LoginPass.mid(1);
+        QList<QByteArray> res = LoginPass.split('\n');
+        qDebug() << " Login: " << res[0];
+        qDebug() << " Pass: " << res[1];
 
-    LoginTask *logintask = new LoginTask(res[0], res[1]);
-    logintask->setAutoDelete(true);
-    connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
-    QThreadPool::globalInstance()->start(logintask);
+        LoginTask *logintask = new LoginTask(res[0], res[1]);
+        logintask->setAutoDelete(true);
+        connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
+        QThreadPool::globalInstance()->start(logintask);
+    }
+    else
+    {
+        qDebug() << " Launch other task ";
+    }
 }
 
 void MyClient::TaskResult(int Number)

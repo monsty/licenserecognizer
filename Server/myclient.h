@@ -2,6 +2,8 @@
 #define MYCLIENT_H
 
 #include "logintask.h"
+#include "getpictask.h"
+#include "analyzepictask.h"
 
 #include <QObject>
 #include <QTcpSocket>

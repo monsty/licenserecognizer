@@ -20,6 +20,8 @@ public slots:
 
 private:
     QTcpSocket *socket;
+
+public:
     bool isConnected;
 
 };
