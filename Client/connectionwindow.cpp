@@ -22,6 +22,7 @@ void ConnectionWindow::on_pushButton_clicked()
 
     loginPassword = '1'+ ui->lineEdit->text()
             + '\n'+ ui->lineEdit_2->text();
+    this->connection->Send(loginPassword);
     if (this->connection->Read() == "1")
     {
         this->mainWindow->show();
