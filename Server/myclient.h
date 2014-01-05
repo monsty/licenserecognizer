@@ -22,10 +22,10 @@ public slots:
     void disconnected();
     void readyRead();
     void TaskResult(int Number);
-    bool isLoggedIn;
 
 private:
     QTcpSocket *socket;
+    bool isLoggedIn;
 };
 
 #endif // MYCLIENT_H
