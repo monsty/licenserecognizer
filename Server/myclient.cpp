@@ -3,7 +3,7 @@
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
-    isLoggedIn = false;
+    this->isLoggedIn = false;
 }
 
 void MyClient::SetSocket(int Descriptor)
@@ -47,6 +47,6 @@ void MyClient::TaskResult(int Number)
     QByteArray Buffer;
     Buffer.append(QString::number(Number));
     if (Number == 1)
-        isLoggedIn = true;
+        this->isLoggedIn = true;
     socket->write(Buffer);
 }
