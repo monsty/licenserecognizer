@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     MyConnection conn;
     conn.Connect();
     conn.Send("1logintest\npasstest");
+    //conn.SendPic("C:\\Users\\websiting\\Pictures\\test.png");
     conn.Read();
     conn.Disconnect();
     //scanDir();
