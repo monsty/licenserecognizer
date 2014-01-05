@@ -24,9 +24,8 @@ public slots:
     void TaskResult(int Number);
 
 private:
-    QTcpSocket *socket;    
+    QTcpSocket *socket;
     bool isLoggedIn;
-
 };
 
 #endif // MYCLIENT_H
