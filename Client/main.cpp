@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "imageviewer.h"
 #include <QApplication>
 #include <stdio.h>
 #include <sys/types.h>

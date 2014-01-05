@@ -36,6 +36,7 @@ public:
     QLineEdit *lineEdit;
     QLabel *label;
     QLabel *label_2;
+    QLabel *myLabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -68,6 +69,11 @@ public:
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(200, 200, 241, 31));
+        myLabel = new QLabel(centralWidget);
+        myLabel->setObjectName(QStringLiteral("myLabel"));
+        myLabel->setGeometry(QRect(240, 250, 181, 81));
+        myLabel->setMinimumSize(QSize(62, 16));
+        myLabel->setScaledContents(true);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -104,6 +110,7 @@ public:
         lineEdit->setText(QApplication::translate("MainWindow", "Number", 0));
         label->setText(QApplication::translate("MainWindow", "Plate Number :", 0));
         label_2->setText(QString());
+        myLabel->setText(QString());
     } // retranslateUi
 
 };
