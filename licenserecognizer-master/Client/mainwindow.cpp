@@ -22,7 +22,6 @@ void MainWindow::on_pushButton_clicked()
     QStringList parts = fileName.split("/");
     QPixmap pm(fileName);
 
-    //qDebug() << parts.at(parts.size() - 1);
     ui->label_3->setText(parts.at(parts.size() - 1));
     ui->label_2->setPixmap(pm);
 }
