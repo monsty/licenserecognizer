@@ -3,30 +3,39 @@
 MyConnection::MyConnection(QObject *parent) :
     QObject(parent)
 {
+    socket = new QTcpSocket(this);
+    isConnected = false;
 }
 
 void MyConnection::Connect()
 {
-    socket = new QTcpSocket(this);
-
     socket->connectToHost("localhost", 1234);
 
     if (socket->waitForConnected(3000))
     {
         qDebug() << "Connected!";
-
-        socket->write("logintest\npasstest");
-        socket->waitForBytesWritten(1000);
-
-        socket->waitForReadyRead(3000);
-        qDebug() << "Reading: " << socket->bytesAvailable();
-
-        qDebug() << socket->readAll();
-
-        socket->close();
+        isConnected = true;
     }
     else
     {
         qDebug() << "Not Connected!";
     }
+}
+
+void MyConnection::Send(QString toSend)
+{
+    socket->write(toSend);
+    socket->waitForBytesWritten(1000);
+}
+
+QString MyConnection::Read()
+{
+    socket->waitForReadyRead(3000);
+    //qDebug() << "Reading: " << socket->bytesAvailable();
+    return socket->readAll();
+}
+
+void MyConnection::Disconnect()
+{
+    socket->close();
 }

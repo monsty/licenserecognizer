@@ -10,6 +10,9 @@ class MyConnection : public QObject
 public:
     explicit MyConnection(QObject *parent = 0);
     void Connect();
+    void Disconnect();
+    void Send(QString toSend);
+    QString Read();
 
 signals:
 
@@ -17,6 +20,7 @@ public slots:
 
 private:
     QTcpSocket *socket;
+    bool isConnected;
 
 };
 
