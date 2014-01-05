@@ -13,6 +13,8 @@ void LoginTask::run()
 
     Database db;
 
+    db.addUser("qqq", "aaa");
+
     if (db.userLogin(_login, _pass) == true)
     {
         qDebug() << "Login success";

@@ -4,12 +4,8 @@
 #
 #-------------------------------------------------
 
-<<<<<<< HEAD
-QT       += core gui
 qtHaveModule(printsupport): QT += printsupport
-=======
 QT       += core gui network
->>>>>>> af70f31ef49a4d805050d405ff77c53070d15f78
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,9 +15,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    myconnection.cpp
+    myconnection.cpp \
+    connectionwindow.cpp
 
 HEADERS  += mainwindow.h \
-    myconnection.h
+    myconnection.h \
+    connectionwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    connectionwindow.ui

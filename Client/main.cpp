@@ -1,5 +1,4 @@
-#include "mainwindow.h"
-#include "imageviewer.h"
+#include "connectionwindow.h"
 #include <QApplication>
 #include <stdio.h>
 #include <sys/types.h>
@@ -30,15 +29,9 @@ void scanDir()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    ConnectionWindow w;
     w.show();
 
-    MyConnection conn;
-    conn.Connect();
-    conn.Send("1logintest\npasstest");
-    conn.Read();
-    conn.Disconnect();
-    //scanDir();
-
+    //Scandir();
     return a.exec();
 }
