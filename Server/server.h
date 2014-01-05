@@ -24,8 +24,8 @@ public slots:
 
 private:
 
-protected:
-    void incomingConnection(int handle);
+protected slots:
+    void incomingConnection(qintptr handle);
 
 };
 
