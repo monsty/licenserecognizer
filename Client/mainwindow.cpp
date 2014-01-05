@@ -26,3 +26,23 @@ void MainWindow::on_pushButton_clicked()
     ui->label_3->setText(parts.at(parts.size() - 1));
     ui->label_2->setPixmap(pm);
 }
+
+void resizePmap(QPixmap &pmap)
+{
+    QSize size;
+    size.setHeight(50); // 67
+    size.setWidth(80); // 100
+    pmap = QPixmap(size);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QPixmap pm("/Users/lisan/Pictures/bored.jpg");
+
+    //resizePmap(pm);
+
+    //pm.scaled(50, 80);
+    ui->myLabel->setPixmap(pm);
+    //qDebug() << "Testing show image";
+    ui->myLabel->show();
+}

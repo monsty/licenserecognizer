@@ -4,7 +4,12 @@
 #
 #-------------------------------------------------
 
+<<<<<<< HEAD
+QT       += core gui
+qtHaveModule(printsupport): QT += printsupport
+=======
 QT       += core gui network
+>>>>>>> af70f31ef49a4d805050d405ff77c53070d15f78
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
