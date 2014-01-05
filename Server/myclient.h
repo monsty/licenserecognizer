@@ -1,7 +1,7 @@
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
-#include "mytask.h"
+#include "logintask.h"
 
 #include <QObject>
 #include <QTcpSocket>

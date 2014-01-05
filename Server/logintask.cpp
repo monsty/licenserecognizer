@@ -1,13 +1,13 @@
-#include "mytask.h"
+#include "logintask.h"
 #include "database.h"
 
-MyTask::MyTask(QString login, QString pass)
+LoginTask::LoginTask(QString login, QString pass)
 {
     _login = login;
     _pass = pass;
 }
 
-void MyTask::run()
+void LoginTask::run()
 {
     qDebug() << "Login started";
 

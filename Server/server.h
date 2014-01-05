@@ -7,7 +7,7 @@
 #include <QObject>
 #include <QDebug>
 
-#include "mytask.h"
+#include "logintask.h"
 #include "myclient.h"
 
 class MyServer : public QTcpServer

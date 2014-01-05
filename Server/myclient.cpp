@@ -37,10 +37,10 @@ void MyClient::readyRead()
     qDebug() << " Login: " << res[0];
     qDebug() << " Pass: " << res[1];
 
-    MyTask *mytask = new MyTask(res[0], res[1]);
-    mytask->setAutoDelete(true);
-    connect(mytask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
-    QThreadPool::globalInstance()->start(mytask);
+    LoginTask *logintask = new LoginTask(res[0], res[1]);
+    logintask->setAutoDelete(true);
+    connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
+    QThreadPool::globalInstance()->start(logintask);
 }
 
 void MyClient::TaskResult(int Number)
