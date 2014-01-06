@@ -2,6 +2,7 @@
 #include "server.h"
 #include "database.h"
 #include <QApplication>
+#include <opencv2/opencv.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -10,9 +11,10 @@ int main(int argc, char *argv[])
     w.show();
 
     //Database db;
-    MyServer s;
+    MyServer *s;
 
-    s.StartServer();
+    s = new MyServer;
+    s->StartServer();
 
     return a.exec();
 }

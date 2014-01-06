@@ -5,14 +5,15 @@ ConnectionWindow::ConnectionWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ConnectionWindow)
 {
-    this->mainWindow = new MainWindow(this->connection);
-    this->mainWindow->show();
-    this->close();
+    ui->setupUi(this);
 
-   /* ui->setupUi(this);
     this->connection = new MyConnection();
     this->connection->Connect();
-    this->mainWindow = new MainWindow(this->connection);*/
+
+    if (this->connection->isConnected == false)
+        ui->statusbar->showMessage("The server is not responding ...");
+
+    this->mainWindow = new MainWindow(this->connection);
 }
 
 ConnectionWindow::~ConnectionWindow()
@@ -20,20 +21,29 @@ ConnectionWindow::~ConnectionWindow()
     delete ui;
 }
 
-void ConnectionWindow::on_pushButton_clicked()
+void ConnectionWindow::on_loginButton_clicked()
 {
     QString loginPassword;
 
-    loginPassword = "1\n" + ui->lineEdit->text()
-            + '\n'+ ui->lineEdit_2->text();
-    this->connection->Send(loginPassword);
-    if (this->connection->Read() == "1")
+    if (this->connection->isConnected)
     {
-        this->mainWindow->show();
-        this->close();
+        loginPassword = '1'+ ui->loginEdit->text() + '\n' + ui->passwordEdit->text();
+
+        this->connection->Send(loginPassword);
+
+        if (this->connection->Read() == "1")
+        {
+            this->mainWindow->show();
+            this->close();
+        }
+        else
+        {
+            ui->label->setText("wrong login or password");
+        }
     }
     else
     {
-        ui->label->setText("wrong login or password");
+        ui->label->setText("the server is not responding ...");
+
     }
 }

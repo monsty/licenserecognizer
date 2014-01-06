@@ -37,6 +37,7 @@ private:
     QString         fileName;
     QFileInfoList   fileList;
     QString         path;
+    QList<QTreeWidgetItem *> updateFileList();
 };
 
 #endif // MAINWINDOW_H

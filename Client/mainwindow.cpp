@@ -1,15 +1,27 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(MyConnection *connect,
-                        QWidget *parent) :
+MainWindow::MainWindow(MyConnection *connect, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QDir dir;
     ui->setupUi(this);
+
     this->connection = new MyConnection();
     this->connection = connect;
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+QList<QTreeWidgetItem *> MainWindow::updateFileList()
+{
+    QStringList listName;
+    QList<QTreeWidgetItem *> items;
+    QDir dir;
+
     this->fileName = "";
     this->path = dir.absolutePath();
     this->fileList = dir.entryInfoList();
@@ -34,6 +46,8 @@ void MainWindow::listFileOnView()
                                             QStringList(QString(listName[i]).arg(i))));
     }
     ui->treeWidget->insertTopLevelItems(0, items);
+
+    return items;
 }
 
 void MainWindow::on_pushButton_clicked()
