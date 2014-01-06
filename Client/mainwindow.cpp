@@ -6,8 +6,6 @@ MainWindow::MainWindow(MyConnection *connect,
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QStringList listName;
-    QList<QTreeWidgetItem *> items;
     QDir dir;
     ui->setupUi(this);
     this->connection = new MyConnection();
@@ -15,6 +13,20 @@ MainWindow::MainWindow(MyConnection *connect,
     this->fileName = "";
     this->path = dir.absolutePath();
     this->fileList = dir.entryInfoList();
+    this->listFileOnView();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::listFileOnView()
+{
+    QList<QTreeWidgetItem *> items;
+    QStringList listName;
+
+    ui->treeWidget->clear();
     for (int i = 0; i < this->fileList.size(); ++i)
     {
         listName.push_back(this->fileList.at(i).fileName());
@@ -24,18 +36,20 @@ MainWindow::MainWindow(MyConnection *connect,
     ui->treeWidget->insertTopLevelItems(0, items);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
 void MainWindow::on_pushButton_clicked()
 {
-/*    this->fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
-    QStringList parts = fileName.split("/");
-    QPixmap pm(fileName);
+    QDir        dir;
+    QString     path = QFileDialog::getExistingDirectory(this,
+                                                        tr("Open Directory"),
+                                                        this->path,
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks);
 
-    ui->label_3->setText(parts.at(parts.size() - 1));*/
+    this->path = path;
+    dir.cd(path);
+    this->fileList = dir.entryInfoList();
+    qDebug() << path;
+    this->listFileOnView();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -53,6 +67,5 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     column;
 
     ui->label_2->setPixmap(pm);
-    this->fileName = this->path + item->text(0);
-    qDebug() << "test :::    " << this->fileName;
+    this->fileName = this->path + '/' + item->text(0);
 }
