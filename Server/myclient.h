@@ -9,6 +9,7 @@
 #include <QTcpSocket>
 #include <QDebug>
 #include <QThreadPool>
+#include <QImage>
 
 class MyClient : public QObject
 {

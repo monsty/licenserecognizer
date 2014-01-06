@@ -30,14 +30,18 @@ void MyConnection::Send(QString toSend)
 
 void MyConnection::SendPic(QString PathPicToSend)
 {
-    QImage image(PathPicToSend);
-
-    //QByteArray ba;
-    //QBuffer buffer(&ba);
-    //image.save(&buffer, PathPicToSend.mid(PathPicToSend.length() - 3).toUpper());
-    //QByteArray ba = qCompress(image.bits());
+    QImage image;
+    qDebug() << "Image to send : " << PathPicToSend;
+    image.load(PathPicToSend);
+    QString test("");
     QByteArray ba((char *) image.bits(), image.byteCount());
-    socket->write(ba.prepend("2"));
+    ba = ba.prepend("\n");
+    test = test.number(ba.length() - 1);
+    qDebug() << "Size of the picture i send" << test;
+    ba = ba.prepend(test.toStdString().c_str());
+    ba = ba.prepend("2\n");
+    socket->write(ba);
+    socket->waitForBytesWritten(1000);
 }
 
 QString MyConnection::Read()

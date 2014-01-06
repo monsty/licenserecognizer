@@ -20,7 +20,7 @@ void ConnectionWindow::on_pushButton_clicked()
 {
     QString loginPassword;
 
-    loginPassword = '1'+ ui->lineEdit->text()
+    loginPassword = "1\n" + ui->lineEdit->text()
             + '\n'+ ui->lineEdit_2->text();
     this->connection->Send(loginPassword);
     if (this->connection->Read() == "1")
