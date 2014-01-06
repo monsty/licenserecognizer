@@ -4,11 +4,15 @@
 #include <qdebug.h>
 #include <QFile>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(MyConnection *connect,
+                        QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->connection = new MyConnection();
+    this->connection = connect;
+    this->fileName = "";
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
+    this->fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
     QStringList parts = fileName.split("/");
     QPixmap pm(fileName);
 
@@ -29,4 +33,8 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    QString     fileNameToSend;
+
+    fileNameToSend = '2' + this->fileName;
+    this->connection->SendPic(fileNameToSend);
 }
