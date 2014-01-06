@@ -56,7 +56,7 @@ void MainWindow::on_pushButton_2_clicked()
 {
     QString     fileNameToSend;
 
-    fileNameToSend = '2' + this->fileName;
+    fileNameToSend = this->fileName;
     this->connection->SendPic(fileNameToSend);
 }
 
@@ -67,5 +67,6 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     column;
 
     ui->label_2->setPixmap(pm);
-    this->fileName = this->path + '/' + item->text(0);
+    this->fileName = this->path + "/" + item->text(0);
+    //qDebug() << "test :::    " << this->fileName;
 }
