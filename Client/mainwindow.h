@@ -13,31 +13,43 @@
 #include "myconnection.h"
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
+
+struct MyFile
+{
+    QString name;
+    QString path;
+    QString plate;
+    bool    sent;
+};
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(MyConnection *,
-                            QWidget *parent = 0);
+    explicit MainWindow(MyConnection *, QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
-    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void listFileOnView();
     void on_selectDirectory_clicked();
     void on_recognize_clicked();
+    void on_checkBox_stateChanged(int arg1);
+
+public slots:
+    void myTreeSelectionChanged(const QItemSelection & selected);
 
 private:
     Ui::MainWindow  *ui;
     MyConnection    *connection;
-    QString         fileName;
-    QFileInfoList   fileList;
-    QString         path;
+    QString         selectedFile;
+    QString         directoryPath;
+    QList<MyFile>   fileList;
+
     void updateFileList();
 };
+
 
 #endif // MAINWINDOW_H

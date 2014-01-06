@@ -43,7 +43,7 @@ void MyConnection::SendPic(QString PathPicToSend)
         QByteArray ba((char *) image.bits(), image.byteCount());
         ba = ba.prepend("\n");
         test = test.number(ba.length() - 1);
-        qDebug() << "Size of the picture i send" << test;
+        qDebug() << "Size of the picture" << test;
         ba = ba.prepend(test.toStdString().c_str());
         ba = ba.prepend("2\n");
         socket->write(ba);

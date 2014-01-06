@@ -50,7 +50,7 @@ void MyClient::readyRead()
         connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
         QThreadPool::globalInstance()->start(logintask);
     }
-    else if (DatasList[0][0] == "2")
+    else if (DatasList[0][0] == '2')
     {
         qDebug() << " Launch getPic task ";
         QByteArray Picture = Datas.mid(DatasList[0].length() + DatasList[1].length() + 2);

@@ -74,20 +74,20 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>340</y>
+      <y>350</y>
       <width>113</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Number</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>340</y>
+      <y>350</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -96,7 +96,7 @@
      <string>Plate Number :</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="preview">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -106,23 +106,42 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>no image selected</string>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="actualfile">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>20</x>
       <y>320</y>
-      <width>331</width>
+      <width>431</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>file</string>
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>380</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Automatic upload</string>
     </property>
    </widget>
   </widget>
@@ -152,7 +171,7 @@
   <connection>
    <sender>selectDirectory</sender>
    <signal>clicked()</signal>
-   <receiver>label_2</receiver>
+   <receiver>preview</receiver>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
