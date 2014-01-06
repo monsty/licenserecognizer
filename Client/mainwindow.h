@@ -28,13 +28,14 @@ public:
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
-    QFileInfoList   get_filenames(QString);
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow  *ui;
     MyConnection    *connection;
     QString         fileName;
     QFileInfoList   fileList;
+    QString         path;
 };
 
 #endif // MAINWINDOW_H

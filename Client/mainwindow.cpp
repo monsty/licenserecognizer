@@ -6,19 +6,20 @@ MainWindow::MainWindow(MyConnection *connect,
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QStringList listName;
+    QList<QTreeWidgetItem *> items;
+    QDir dir;
     ui->setupUi(this);
     this->connection = new MyConnection();
     this->connection = connect;
     this->fileName = "";
-    this->fileList = get_filenames("/home");
-
-    QStringList list;
-    QList<QTreeWidgetItem *> items;
+    this->path = dir.absolutePath();
+    this->fileList = dir.entryInfoList();
     for (int i = 0; i < this->fileList.size(); ++i)
     {
-        list.push_back(this->fileList.at(i).fileName());
+        listName.push_back(this->fileList.at(i).fileName());
         items.append(new QTreeWidgetItem((QTreeWidget*)0,
-                                            QStringList(QString(list[i]).arg(i))));
+                                            QStringList(QString(listName[i]).arg(i))));
     }
     ui->treeWidget->insertTopLevelItems(0, items);
 }
@@ -28,30 +29,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QFileInfoList MainWindow::get_filenames(QString path)
-{
-    QDir dir;
-
-    dir.cd(path);
-    QFileInfoList list = dir.entryInfoList();
-//    for (int i = 0; i < list.size(); ++i)
-//    {
-//       QFileInfo fileInfo = list.at(i);
-//       qDebug() << qPrintable(fileInfo.fileName());
-//       qDebug() << qPrintable(fileInfo.filePath());
-//    }
-    return (list);
-}
-
 void MainWindow::on_pushButton_clicked()
 {
-    this->fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
+/*    this->fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
     QStringList parts = fileName.split("/");
     QPixmap pm(fileName);
 
-    //qDebug() << parts.at(parts.size() - 1);
-    ui->label_3->setText(parts.at(parts.size() - 1));
-    ui->label_2->setPixmap(pm);
+    ui->label_3->setText(parts.at(parts.size() - 1));*/
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -60,4 +44,15 @@ void MainWindow::on_pushButton_2_clicked()
 
     fileNameToSend = '2' + this->fileName;
     this->connection->SendPic(fileNameToSend);
+}
+
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    QPixmap     pm(this->path + '/' + item->text(0));
+    item;
+    column;
+
+    ui->label_2->setPixmap(pm);
+    this->fileName = this->path + item->text(0);
+    qDebug() << "test :::    " << this->fileName;
 }
