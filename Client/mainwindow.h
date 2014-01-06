@@ -26,10 +26,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void listFileOnView();
+    void on_selectDirectory_clicked();
+    void on_recognize_clicked();
 
 private:
     Ui::MainWindow  *ui;
@@ -37,7 +37,7 @@ private:
     QString         fileName;
     QFileInfoList   fileList;
     QString         path;
-    QList<QTreeWidgetItem *> updateFileList();
+    void updateFileList();
 };
 
 #endif // MAINWINDOW_H

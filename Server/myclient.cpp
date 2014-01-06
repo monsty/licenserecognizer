@@ -34,10 +34,13 @@ void MyClient::readyRead()
 {
     QByteArray Datas = socket->readAll();
     QList<QByteArray> DatasList = Datas.split('\n');
-    if (DatasList[0] == "1")
+
+    qDebug() << "received:" << Datas;
+
+    if (DatasList[0][0] == '1')
     {
         qDebug() << " Launch login task ";
-        QByteArray LoginPass = Datas.mid(2);
+        QByteArray LoginPass = Datas.mid(1);
         QList<QByteArray> res = LoginPass.split('\n');
         qDebug() << " Login: " << res[0];
         qDebug() << " Pass: " << res[1];
@@ -47,7 +50,7 @@ void MyClient::readyRead()
         connect(logintask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
         QThreadPool::globalInstance()->start(logintask);
     }
-    else if (DatasList[0] == "2")
+    else if (DatasList[0][0] == "2")
     {
         qDebug() << " Launch getPic task ";
         QByteArray Picture = Datas.mid(DatasList[0].length() + DatasList[1].length() + 2);

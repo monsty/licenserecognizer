@@ -3,27 +3,14 @@
 
 MainWindow::MainWindow(MyConnection *connect, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    connection(connect)
 {
-    ui->setupUi(this);
-
-    this->connection = new MyConnection();
-    this->connection = connect;
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-QList<QTreeWidgetItem *> MainWindow::updateFileList()
-{
-    QStringList listName;
-    QList<QTreeWidgetItem *> items;
     QDir dir;
 
-    this->fileName = "";
+    ui->setupUi(this);
     this->path = dir.absolutePath();
+    this->fileName = "";
     this->fileList = dir.entryInfoList();
     this->listFileOnView();
 }
@@ -31,6 +18,14 @@ QList<QTreeWidgetItem *> MainWindow::updateFileList()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateFileList()
+{
+    QDir dir;
+
+    dir.cd(this->path);
+    this->fileList = dir.entryInfoList();
 }
 
 void MainWindow::listFileOnView()
@@ -42,45 +37,33 @@ void MainWindow::listFileOnView()
     for (int i = 0; i < this->fileList.size(); ++i)
     {
         listName.push_back(this->fileList.at(i).fileName());
-        items.append(new QTreeWidgetItem((QTreeWidget*)0,
-                                            QStringList(QString(listName[i]).arg(i))));
+        items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString(listName[i]).arg(i))));
     }
     ui->treeWidget->insertTopLevelItems(0, items);
-
-    return items;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_selectDirectory_clicked()
 {
-    QDir        dir;
-    QString     path = QFileDialog::getExistingDirectory(this,
-                                                        tr("Open Directory"),
-                                                        this->path,
-                                                        QFileDialog::ShowDirsOnly
-                                                        | QFileDialog::DontResolveSymlinks);
+    QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"), this->path,
+                                                     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     this->path = path;
-    dir.cd(path);
-    this->fileList = dir.entryInfoList();
-    qDebug() << path;
+    this->updateFileList();
     this->listFileOnView();
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_recognize_clicked()
 {
-    QString     fileNameToSend;
-
-    fileNameToSend = this->fileName;
-    this->connection->SendPic(fileNameToSend);
+    this->connection->SendPic(this->fileName);
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     QPixmap     pm(this->path + '/' + item->text(0));
-    item;
-    column;
 
-    ui->label_2->setPixmap(pm);
-    this->fileName = this->path + "/" + item->text(0);
-    //qDebug() << "test :::    " << this->fileName;
+    if (column == 0)
+    {
+        ui->label_2->setPixmap(pm);
+        this->fileName = this->path + "/" + item->text(0);
+    }
 }
