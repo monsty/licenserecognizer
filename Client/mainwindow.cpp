@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <qfiledialog.h>
-#include <qdebug.h>
-#include <QFile>
 
 MainWindow::MainWindow(MyConnection *connect,
                         QWidget *parent) :
@@ -13,11 +10,37 @@ MainWindow::MainWindow(MyConnection *connect,
     this->connection = new MyConnection();
     this->connection = connect;
     this->fileName = "";
+    this->fileList = get_filenames("/home");
+
+    QStringList list;
+    QList<QTreeWidgetItem *> items;
+    for (int i = 0; i < this->fileList.size(); ++i)
+    {
+        list.push_back(this->fileList.at(i).fileName());
+        items.append(new QTreeWidgetItem((QTreeWidget*)0,
+                                            QStringList(QString(list[i]).arg(i))));
+    }
+    ui->treeWidget->insertTopLevelItems(0, items);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+QFileInfoList MainWindow::get_filenames(QString path)
+{
+    QDir dir;
+
+    dir.cd(path);
+    QFileInfoList list = dir.entryInfoList();
+//    for (int i = 0; i < list.size(); ++i)
+//    {
+//       QFileInfo fileInfo = list.at(i);
+//       qDebug() << qPrintable(fileInfo.fileName());
+//       qDebug() << qPrintable(fileInfo.filePath());
+//    }
+    return (list);
 }
 
 void MainWindow::on_pushButton_clicked()

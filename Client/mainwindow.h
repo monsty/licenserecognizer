@@ -2,6 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QDebug>
+#include <QFile>
+#include <QDir>
+#include <QFileInfoList>
+#include <QStringList>
+#include <QTreeWidgetItem>
+#include <QList>
 #include "myconnection.h"
 
 namespace Ui {
@@ -19,13 +27,14 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
+    QFileInfoList   get_filenames(QString);
 
 private:
     Ui::MainWindow  *ui;
     MyConnection    *connection;
     QString         fileName;
+    QFileInfoList   fileList;
 };
 
 #endif // MAINWINDOW_H
