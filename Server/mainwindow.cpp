@@ -67,21 +67,17 @@ void MainWindow::on_pushButton_3_clicked()
     model = db.getUsers();
 
     ui->tableView->setModel(model);
-    qDebug() << (model->rowCount());
 }
 
 void MainWindow::on_pushButton_4_clicked()
 {
     QModelIndexList indexes = ui->tableView->selectionModel()->selection().indexes();
 
-   // for (int i = 0; i < indexes.count(); ++i)
-    //{
+    int index = ui->tableView->selectionModel()->currentIndex().row();
+    QString username = ui->tableView->model()->data(ui->tableView->model()->index(index,1)).toString();
 
-        int index = ui->tableView->selectionModel()->currentIndex().row();
-        QString username = ui->tableView->model()->data(ui->tableView->model()->index(index,1)).toString();
+    qDebug() << "Selected user: " << username;
 
-        qDebug() << "Selected user: " << username;
+    db.deleteUser(username);
 
-        db.deleteUser(username);
-   // }
 }

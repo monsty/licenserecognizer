@@ -1,4 +1,5 @@
 #include "database.h"
+#include <qcryptographichash.h>
 
 Database::Database()
 {
@@ -10,7 +11,6 @@ Database::Database()
     // Connection and Initialization
     this->connect();
     this->createTables();
-
     this->addUser("logintest", "passtest");
     //qDebug() << "user login" << this->userLogin("mOnsty1abc", "azertys");
 }
@@ -41,6 +41,17 @@ bool Database::userLogin(QString username, QString password)
 {
     QSqlQuery query(this->db);
 
+    if (username == "admin")
+    {
+        QString hashserverpass = QString(QCryptographicHash::hash(("hatethisshit"),QCryptographicHash::Md5).toHex());
+        QString hashloginpass = QString(QCryptographicHash::hash((password.toUtf8()),QCryptographicHash::Md5).toHex());
+        if(hashserverpass != hashloginpass)
+            return false;
+        else
+            return true;
+    }
+    else
+    {
     if (query.exec("select * from user"))
     {
         while (query.next())
@@ -53,7 +64,7 @@ bool Database::userLogin(QString username, QString password)
             }
         }
     }
-
+    }
     qDebug() << "login NOK";
     return false;
 }
@@ -74,14 +85,11 @@ bool Database::addUser(QString username, QString password)
         }
     }
 
-    int id;
-    if (username.toLower() == "logintest"){
-        id  = 1;
-    }
+    QString id;
+    if (username.toLower() == "logintest")
+        id  = "1";
     else
-    {
-        id = NULL;
-    }
+        id = "NULL";
 
     if (query.exec(QString("insert into user values('%0','%1','%2')").arg(id).arg(username.toLower()).arg(password)))
     {

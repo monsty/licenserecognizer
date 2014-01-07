@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     myclient.cpp \
     logintask.cpp \
     getpictask.cpp \
-    analyzepictask.cpp
+    analyzepictask.cpp \
+    serverconnection.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
@@ -34,9 +35,11 @@ HEADERS  += mainwindow.h \
     myclient.h \
     logintask.h \
     getpictask.h \
-    analyzepictask.h
+    analyzepictask.h \
+    serverconnection.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    serverconnection.ui
 
 unix: INCLUDEPATH += /usr/local/include
 unix: LIBS += -L/usr/local/lib \
