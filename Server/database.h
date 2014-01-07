@@ -5,21 +5,28 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QDir>
+#include <QSqlQueryModel>
 
 class Database
 {
 public:
     Database();
+    ~Database();
+    QSqlDatabase db;
+
 
 private:
-    QSqlDatabase db;
     QString dbpath;
-    bool connect();
     bool createTables();
 
 public:
+
     bool userLogin(QString username, QString password);
     bool addUser(QString username, QString password);
+    bool deleteUser(QString username);
+    QSqlQueryModel* getUsers();
+    bool connect();
+
 };
 
 #endif // DATABASE_H

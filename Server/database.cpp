@@ -15,6 +15,11 @@ Database::Database()
     //qDebug() << "user login" << this->userLogin("mOnsty1abc", "azertys");
 }
 
+Database::~Database()
+{
+    db.close();
+}
+
 bool Database::connect()
 {
     this->db = QSqlDatabase::addDatabase("QSQLITE");
@@ -69,7 +74,16 @@ bool Database::addUser(QString username, QString password)
         }
     }
 
-    if (query.exec(QString("insert into user values(NULL,'%1','%2')").arg(username.toLower()).arg(password)))
+    int id;
+    if (username.toLower() == "logintest"){
+        id  = 1;
+    }
+    else
+    {
+        id = NULL;
+    }
+
+    if (query.exec(QString("insert into user values('%0','%1','%2')").arg(id).arg(username.toLower()).arg(password)))
     {
         qDebug() << "user" << username << "added";
         return true;
@@ -79,4 +93,31 @@ bool Database::addUser(QString username, QString password)
         qDebug() << "error while adding user" << username;
         return false;
     }
+}
+
+bool Database::deleteUser(QString username) {
+    QSqlQuery query(this->db);
+
+    if (query.exec(QString("select * from user where username='%1'").arg(username.toLower())))
+    {
+        query.exec(QString("delete from user where username='%1'").arg(username.toLower()));
+        qDebug() << "user" << username << "deleted.";
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+QSqlQueryModel* Database::getUsers() {
+    QSqlQuery query(this->db);
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+    query.exec(QString("select * from user"));
+
+    model->setQuery(query);
+
+    return model;
 }

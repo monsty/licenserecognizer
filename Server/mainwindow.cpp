@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QModelIndex>
 #include <opencv2/opencv.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,6 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->tableView->show();
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
 }
 
 MainWindow::~MainWindow()
@@ -50,4 +58,30 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
 
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+
+    QSqlQueryModel *model;
+    model = db.getUsers();
+
+    ui->tableView->setModel(model);
+    qDebug() << (model->rowCount());
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    QModelIndexList indexes = ui->tableView->selectionModel()->selection().indexes();
+
+   // for (int i = 0; i < indexes.count(); ++i)
+    //{
+
+        int index = ui->tableView->selectionModel()->currentIndex().row();
+        QString username = ui->tableView->model()->data(ui->tableView->model()->index(index,1)).toString();
+
+        qDebug() << "Selected user: " << username;
+
+        db.deleteUser(username);
+   // }
 }
