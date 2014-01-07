@@ -14,6 +14,9 @@ MainWindow::MainWindow(MyConnection *connect_cpy, QWidget *parent) :
     this->listFileOnView();
 
     connect(ui->treeWidget->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(myTreeSelectionChanged(const QItemSelection &)));
+
+    this->autoScan = new QTimer();
+    this->autoScan->connect(this->autoScan, SIGNAL(timeout()), this, SLOT(directoryRefresh()));
 }
 
 MainWindow::~MainWindow()
@@ -84,11 +87,13 @@ void MainWindow::on_checkBox_stateChanged(int state)
     {
         ui->recognize->setEnabled(false);
         ui->selectDirectory->setEnabled(false);
+        this->autoScan->start(1000);
     }
     else
     {
         ui->recognize->setEnabled(true);
         ui->selectDirectory->setEnabled(true);
+        this->autoScan->stop();
     }
 }
 
@@ -109,4 +114,9 @@ void MainWindow::myTreeSelectionChanged(const QItemSelection & selected)
         ui->actualfile->setText("");
         this->selectedFile = "";
     }
+}
+
+void MainWindow::directoryRefresh()
+{
+    qDebug() << "Temporary refresh";
 }

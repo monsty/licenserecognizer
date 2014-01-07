@@ -53,21 +53,30 @@ void MyClient::readyRead()
     else if (DatasList[0][0] == '2')
     {
         qDebug() << " Launch getPic task ";
-        QByteArray Picture = Datas.mid(DatasList[0].length() + DatasList[1].length() + 2);
+
+        QByteArray newRec;
+
         int size = DatasList[1].toInt();
-        qDebug() << "Size I expect " << size;
-        int received = Picture.length();
+        int received = Datas.length();
         while(received < size)
         {
-            QByteArray newRec = socket->readAll();
+            newRec = socket->readAll();
             socket->waitForReadyRead(300);
             received += newRec.length();
-            Picture += newRec;
+            Datas += newRec;
         }
-        QImage image;
-        qDebug() << "Picture Size = " << Picture.length();
-        image.loadFromData(Picture);
-        image.save("test.jpg");
+        Datas.remove(0, 2 + DatasList[1].length() + 1);
+
+        QString tmp_path(QDir::currentPath());
+        tmp_path.append(QDir::separator()).append("temp_file.jpg");
+        QFile file(QDir::toNativeSeparators(tmp_path));
+        file.open(QIODevice::WriteOnly);
+        file.write(Datas);
+        file.close();
+
+        qDebug() << "Trying to save" << QDir::toNativeSeparators(tmp_path);
+        qDebug() << "File size expected" << size;
+        qDebug() << "File size received " << Datas.length();
     }
     else
     {

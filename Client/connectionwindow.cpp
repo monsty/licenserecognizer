@@ -10,7 +10,6 @@ ConnectionWindow::ConnectionWindow(QWidget *parent) :
     this->connection->Connect();
     if (this->connection->isConnected == false)
         ui->statusbar->showMessage("The server is not responding ...");
-    this->mainWindow = new MainWindow(this->connection);
 }
 
 ConnectionWindow::~ConnectionWindow()
@@ -25,6 +24,7 @@ void ConnectionWindow::on_loginButton_clicked()
         this->connection->Send('1' + ui->loginEdit->text() + '\n' + ui->passwordEdit->text());
         if (this->connection->Read() == "1")
         {
+            this->mainWindow = new MainWindow(this->connection);
             this->mainWindow->show();
             this->close();
         }

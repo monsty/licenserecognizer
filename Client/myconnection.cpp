@@ -36,17 +36,24 @@ void MyConnection::SendPic(QString PathPicToSend)
 {
     if (this->isConnected)
     {
-        QImage image;
         qDebug() << "Image to send : " << PathPicToSend;
-        image.load(PathPicToSend);
-        QString test("");
-        QByteArray ba((char *) image.bits(), image.byteCount());
-        ba = ba.prepend("\n");
-        test = test.number(ba.length() - 1);
-        qDebug() << "Size of the picture" << test;
-        ba = ba.prepend(test.toStdString().c_str());
-        ba = ba.prepend("2\n");
-        socket->write(ba);
+
+        QString file_size("");
+        QByteArray data;
+
+        QFile file(PathPicToSend);
+        file.open(QIODevice::ReadOnly);
+        data = file.readAll();
+        file.close();
+
+        file_size = file_size.number(data.length());
+        qDebug() << "Size of the picture" << file_size;
+
+        data = data.prepend("\n");
+        data = data.prepend(file_size.toStdString().c_str());
+        data = data.prepend("2\n");
+
+        socket->write(data);
         socket->waitForBytesWritten(1000);
     }
 }

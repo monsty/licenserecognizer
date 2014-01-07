@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QImage>
 #include <QBuffer>
+#include <QFile>
 
 class MyConnection : public QObject
 {

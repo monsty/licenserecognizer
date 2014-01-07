@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QThreadPool>
 #include <QImage>
+#include <QDir>
+#include <QBuffer>
 
 class MyClient : public QObject
 {

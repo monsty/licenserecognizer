@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QTreeWidgetItem>
 #include <QList>
+#include <QTimer>
 #include "myconnection.h"
 
 namespace Ui {
@@ -40,6 +41,8 @@ private slots:
 
 public slots:
     void myTreeSelectionChanged(const QItemSelection & selected);
+    void directoryRefresh();
+
 
 private:
     Ui::MainWindow  *ui;
@@ -47,6 +50,7 @@ private:
     QString         selectedFile;
     QString         directoryPath;
     QList<MyFile>   fileList;
+    QTimer          *autoScan;
 
     void updateFileList();
 };
