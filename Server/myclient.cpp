@@ -76,7 +76,7 @@ void MyClient::readyRead()
 
         GetPicTask *pictask = new GetPicTask(tmp_path);
         pictask->setAutoDelete(true);
-        connect(pictask, SIGNAL(Result(string)), this, SLOT(TaskResult(string)), Qt::QueuedConnection);
+        connect(pictask, SIGNAL(Result(QString)), this, SLOT(TaskResult(QString)), Qt::QueuedConnection);
         QThreadPool::globalInstance()->start(pictask);
         qDebug() << "Trying to save" << QDir::toNativeSeparators(tmp_path);
         qDebug() << "File size expected" << size;
@@ -97,7 +97,7 @@ void MyClient::TaskResult(int Number)
     socket->write(Buffer);
 }
 
-void MyClient::TaskResult(String Plate)
+void MyClient::TaskResult(QString Plate)
 {
     QByteArray Buffer;
     Buffer.append(Plate);

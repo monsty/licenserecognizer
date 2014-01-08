@@ -26,6 +26,7 @@ public slots:
     void disconnected();
     void readyRead();
     void TaskResult(int Number);
+    void TaskResult(QString Plate);
 
 private:
     QTcpSocket *socket;

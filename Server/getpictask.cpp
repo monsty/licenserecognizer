@@ -7,5 +7,6 @@ GetPicTask::GetPicTask(QString picPath)
 
 void GetPicTask::run()
 {
+    qDebug() << "analizing plate....";
     emit Result("TEST04");
 }

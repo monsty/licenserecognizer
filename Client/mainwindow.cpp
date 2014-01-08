@@ -79,6 +79,7 @@ void MainWindow::on_selectDirectory_clicked()
 void MainWindow::on_recognize_clicked()
 {
     this->connection->SendPic(this->selectedFile);
+    ui->lineEdit->setText(this->connection->Read());
 }
 
 void MainWindow::on_checkBox_stateChanged(int state)

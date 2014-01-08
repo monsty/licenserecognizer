@@ -11,16 +11,16 @@ class GetPicTask : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    GetPicTask();
+    GetPicTask(QString path);
 
 protected:
     void run();
 
 signals:
-    void Result(String Plate);
+    void Result(QString Plate);
 
 private:
-    QString_path;
+    QString _path;
 
 };
 
