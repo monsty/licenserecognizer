@@ -74,6 +74,10 @@ void MyClient::readyRead()
         file.write(Datas);
         file.close();
 
+        GetPicTask *pictask = new GetPicTask(tmp_path);
+        pictask->setAutoDelete(true);
+        connect(pictask, SIGNAL(Result(string)), this, SLOT(TaskResult(string)), Qt::QueuedConnection);
+        QThreadPool::globalInstance()->start(pictask);
         qDebug() << "Trying to save" << QDir::toNativeSeparators(tmp_path);
         qDebug() << "File size expected" << size;
         qDebug() << "File size received " << Datas.length();
@@ -90,5 +94,12 @@ void MyClient::TaskResult(int Number)
     Buffer.append(QString::number(Number));
     if (Number == 1)
         isLoggedIn = true;
+    socket->write(Buffer);
+}
+
+void MyClient::TaskResult(String Plate)
+{
+    QByteArray Buffer;
+    Buffer.append(Plate);
     socket->write(Buffer);
 }

@@ -2,7 +2,7 @@
 #include "server.h"
 #include "database.h"
 #include <QApplication>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 
 int main(int argc, char *argv[])
 {

@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     myclient.cpp \
     logintask.cpp \
     getpictask.cpp \
-    analyzepictask.cpp \
     serverconnection.cpp
 
 HEADERS  += mainwindow.h \
@@ -35,7 +34,6 @@ HEADERS  += mainwindow.h \
     myclient.h \
     logintask.h \
     getpictask.h \
-    analyzepictask.h \
     serverconnection.h
 
 FORMS    += mainwindow.ui \

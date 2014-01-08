@@ -3,7 +3,6 @@
 
 #include "logintask.h"
 #include "getpictask.h"
-#include "analyzepictask.h"
 
 #include <QObject>
 #include <QTcpSocket>

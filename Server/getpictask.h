@@ -4,6 +4,7 @@
 #include <QRunnable>
 #include <QObject>
 #include <QDebug>
+#include <QString>
 
 class GetPicTask : public QObject, public QRunnable
 {
@@ -16,7 +17,10 @@ protected:
     void run();
 
 signals:
-    void Result(int Number);
+    void Result(String Plate);
+
+private:
+    QString_path;
 
 };
 
