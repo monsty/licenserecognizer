@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QModelIndex>
-//#include <opencv2/opencv.hpp>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,7 +17,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    //load_temp_img();
+    QString temp = "temp_file.jpg";
 
+    this->autoScan = new QTimer();
+    this->autoScan->connect(this->autoScan, SIGNAL(timeout()), this, SLOT(imageRefresh()));
+    this->autoScan->start(100);
 }
 
 MainWindow::~MainWindow()
@@ -25,42 +30,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_selectFile_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home", tr("Images (*.bmp *.jpg)"));
-    QStringList parts = fileName.split("/");
-    QPixmap pm(fileName);
-    QPixmap pm_2;
-
-    //qDebug() << parts.at(parts.size() - 1);
-    ///×
-    //cv::Mat mat;
-    //cv::Mat output_mat;
-    //cv::Mat sobel_mat;
-    //cv::Mat threshold_mat;
-
-    //mat = cv::imread(fileName.toStdString().c_str(), CV_LOAD_IMAGE_COLOR);
-    //cv::cvtColor(mat, output_mat, CV_BGR2GRAY);
-    //cv::blur(output_mat, output_mat, cv::Size(5,5));
-    //cv::Sobel(output_mat, sobel_mat, CV_8U, 1, 0, 3, 1, 0);
-    //cv::threshold(sobel_mat, threshold_mat, 0, 255, CV_THRESH_OTSU+CV_THRESH_BINARY);
-
-    //cv::namedWindow("recognition", cv::WINDOW_AUTOSIZE);
-    //imshow("recognition", threshold_mat);
-    //pm_2 = QPixmap::fromImage(QImage((unsigned char*) output_mat.data, output_mat.cols, output_mat.rows, QImage::Format_RGB888));
-
-    ui->label_3->setText(parts.at(parts.size() - 1));
-    ui->label->setPixmap(pm_2);
-
-    qDebug() << fileName;
+    this->img.set_original(fileName.toStdString().c_str());
+    ui->label->setPixmap(this->img.get_original());
+    displaySelectedFile(fileName);
+    this->autoScan->stop();
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
 
-}
-
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_getUsers_clicked()
 {
 
     QSqlQueryModel *model;
@@ -69,7 +49,7 @@ void MainWindow::on_pushButton_3_clicked()
     ui->tableView->setModel(model);
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_deleteUsers_clicked()
 {
     QModelIndexList indexes = ui->tableView->selectionModel()->selection().indexes();
 
@@ -81,3 +61,47 @@ void MainWindow::on_pushButton_4_clicked()
     db.deleteUser(username);
 
 }
+
+void MainWindow::on_Grayscale_clicked()
+{
+    this->img.set_gray();
+    ui->label->setPixmap(this->img.get_gray());
+}
+
+void MainWindow::on_Sobel_clicked()
+{
+    this->img.set_sobel();
+    ui->label->setPixmap(this->img.get_sobel());
+}
+
+void MainWindow::on_Threshold_clicked()
+{
+    this->img.set_threshold();
+    ui->label->setPixmap(this->img.get_threshold());
+}
+
+void MainWindow::on_Draw_Contours_clicked()
+{
+    this->img.set_contours();
+    ui->label->setPixmap(this->img.get_contours());
+}
+
+void MainWindow::on_Create_clicked()
+{
+    this->img.crop_img();
+}
+
+void MainWindow::imageRefresh() {
+    displaySelectedFile("temp_file.jpg");
+}
+
+void MainWindow::displaySelectedFile(QString fileName) {
+    this->img.set_original(fileName.toStdString().c_str());
+    ui->label->setPixmap(this->img.get_original());
+
+    QStringList parts = fileName.split("/");
+    QString name = "File name: ";
+    name.append(QString(parts.at(parts.size() - 1)));
+    ui->label_3->setText(name);
+}
+

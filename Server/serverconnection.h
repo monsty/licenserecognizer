@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
-#include "database.h"
 
 namespace Ui {
 class ServerConnection;
@@ -23,7 +22,6 @@ private slots:
 private:
     Ui::ServerConnection    *ui;
     MainWindow              *mainWindow;
-    Database                db;
 };
 
 #endif // SERVERCONNECTION_H

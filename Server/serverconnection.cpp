@@ -1,11 +1,14 @@
 #include "serverconnection.h"
 #include "ui_serverconnection.h"
+#include <qcryptographichash.h>
+
 
 ServerConnection::ServerConnection(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ServerConnection)
 {
     this->ui->setupUi(this);
+    this->ui->serverPass->setEchoMode(QLineEdit::Password);
 }
 
 ServerConnection::~ServerConnection()
@@ -17,9 +20,12 @@ ServerConnection::~ServerConnection()
 void ServerConnection::on_loginButton_clicked()
 {
     QString password = ui->serverPass->text();
-    if(!db.userLogin("admin", password))
+    QString hashserverpass = QString(QCryptographicHash::hash(("hatethisshit"),QCryptographicHash::Md5).toHex());
+    QString hashloginpass = QString(QCryptographicHash::hash((password.toUtf8()),QCryptographicHash::Md5).toHex());
+
+    if(hashserverpass != hashloginpass)
     {
-        qDebug() << "Incorrect password.";
+        ui->loginStatus->setText("Password incorrect.");
     }
     else
     {

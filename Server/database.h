@@ -11,7 +11,6 @@ class Database
 {
 public:
     Database();
-    ~Database();
     QSqlDatabase db;
 
 

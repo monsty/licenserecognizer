@@ -6,6 +6,7 @@ ConnectionWindow::ConnectionWindow(QWidget *parent) :
     ui(new Ui::ConnectionWindow)
 {
     this->ui->setupUi(this);
+    this->ui->passwordEdit->setEchoMode(QLineEdit::Password);
     this->connection = new MyConnection();
     this->connection->Connect();
     if (this->connection->isConnected == false)

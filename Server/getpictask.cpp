@@ -7,6 +7,10 @@ GetPicTask::GetPicTask(QString picPath)
 
 void GetPicTask::run()
 {
-    qDebug() << "analizing plate....";
+    platedetector   detector;
+    std::vector<QString>    cropped_list;
+
+    cropped_list = detector.run(this->_path.toStdString().c_str());
+
     emit Result("TEST04");
 }

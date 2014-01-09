@@ -12,6 +12,7 @@ class LoginTask : public QObject, public QRunnable
 public:
     LoginTask(QString login, QString pass);
 
+
 protected:
     void run();
 

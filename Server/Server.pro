@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     myclient.cpp \
     logintask.cpp \
     getpictask.cpp \
-    serverconnection.cpp
+    serverconnection.cpp \
+    platedetector.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     myclient.h \
     logintask.h \
     getpictask.h \
-    serverconnection.h
+    serverconnection.h \
+    platedetector.h
 
 FORMS    += mainwindow.ui \
     serverconnection.ui

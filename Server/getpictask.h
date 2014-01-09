@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QString>
+#include "platedetector.h"
 
 class GetPicTask : public QObject, public QRunnable
 {
@@ -12,6 +13,7 @@ class GetPicTask : public QObject, public QRunnable
 
 public:
     GetPicTask(QString path);
+
 
 protected:
     void run();
