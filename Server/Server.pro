@@ -41,7 +41,10 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     serverconnection.ui
 
-unix: INCLUDEPATH += /usr/local/include
+unix: INCLUDEPATH += /usr/local/include \
+                    /opt/local/include
+
+#OpenCV Library
 unix: LIBS += -L/usr/local/lib \
     -lopencv_core \
     -lopencv_highgui \
@@ -54,3 +57,8 @@ unix: LIBS += -L/usr/local/lib \
     -lopencv_ml \
     -lopencv_objdetect \
     -lopencv_video
+
+#Tesseract Library
+unix: LIBS += -L/opt/local/lib -ltesseract
+unix: LIBS += -L/opt/local/lib -llept
+

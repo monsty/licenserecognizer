@@ -20,7 +20,7 @@ ServerConnection::~ServerConnection()
 void ServerConnection::on_loginButton_clicked()
 {
     QString password = ui->serverPass->text();
-    QString hashserverpass = QString(QCryptographicHash::hash(("hatethisshit"),QCryptographicHash::Md5).toHex());
+    QString hashserverpass = QString(QCryptographicHash::hash(("12345"),QCryptographicHash::Md5).toHex());
     QString hashloginpass = QString(QCryptographicHash::hash((password.toUtf8()),QCryptographicHash::Md5).toHex());
 
     if(hashserverpass != hashloginpass)

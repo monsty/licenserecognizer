@@ -64,7 +64,7 @@ bool Database::addUser(QString username, QString password)
     {
         if (query.value(1).toString().compare(username.toLower()) == 0)
         {
-            qDebug() << "user" << username << "already exist, add failed";
+            //qDebug() << "user" << username << "already exist, add failed";
             return false;
         }
     }

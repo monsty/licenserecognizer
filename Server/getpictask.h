@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QDebug>
 #include <QString>
+#include <tesseract/baseapi.h>
+#include <leptonica/allheaders.h>
 #include "platedetector.h"
 
 class GetPicTask : public QObject, public QRunnable
@@ -13,9 +15,6 @@ class GetPicTask : public QObject, public QRunnable
 
 public:
     GetPicTask(QString path);
-
-
-protected:
     void run();
 
 signals:
@@ -23,6 +22,9 @@ signals:
 
 private:
     QString _path;
+    tesseract::TessBaseAPI *tesseract;
+
+    QString startRecognize(QString fileName);
 
 };
 
