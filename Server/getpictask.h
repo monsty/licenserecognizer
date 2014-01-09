@@ -25,7 +25,9 @@ private:
     tesseract::TessBaseAPI *tesseract;
 
     QString startRecognize(QString fileName);
-
+    int tmp_count;
+    std::vector<cv::Mat> alphalist;
+    std::vector<QString> alphaname;
 };
 
 #endif // GETPICTASK_H

@@ -3,6 +3,7 @@
 GetPicTask::GetPicTask(QString picPath)
 {
     _path = picPath;
+    this->tmp_count = 0;
 
     this->tesseract = new tesseract::TessBaseAPI();
     if (tesseract->Init(NULL, "eng"))
@@ -11,6 +12,34 @@ GetPicTask::GetPicTask(QString picPath)
         exit(0);
     }
     this->tesseract->SetVariable("tessedit_char_whitelist", "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
+
+    QFileInfoList tmp_list;
+    QDir dir;
+
+    QString letters_dir(QDir::currentPath());
+    letters_dir.append(QDir::separator()).append("letters");
+    letters_dir = QDir::toNativeSeparators(letters_dir);
+
+    dir.cd(letters_dir);
+    tmp_list = dir.entryInfoList();
+    for (int i = 0; i < tmp_list.size(); ++i)
+    {
+        QString tmp_name = tmp_list.at(i).fileName();
+        if (tmp_name.endsWith(".jpg", Qt::CaseInsensitive) == 1)
+        {
+            cv::Mat letter;
+            QString tmp_path = "";
+            tmp_path.append(letters_dir);
+            tmp_path.append("/");
+            tmp_path.append(tmp_list.at(i).fileName());
+
+            letter = cv::imread(tmp_path.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
+            this->alphalist.push_back(letter);
+            this->alphaname.push_back(tmp_list.at(i).fileName());
+
+            qDebug() << "loaded" << tmp_list.at(i).fileName();
+        }
+    }
 }
 
 void GetPicTask::run()
@@ -27,21 +56,10 @@ void GetPicTask::run()
     for(std::vector<QString>::iterator it = cropped_list.begin(); it != cropped_list.end(); ++it)
     {
         tmp_res = this->startRecognize((*it));
-        if (tmp_diff == 0)
+        if (tmp_res.length() > tmp_diff)
         {
-            tmp_diff = 7 - result.length();
-            if (tmp_diff < 0) tmp_diff *= -1;
+            tmp_diff = tmp_res.length();
             result = tmp_res;
-        }
-        else
-        {
-            int diff = 7 - tmp_res.length();
-            if (diff < 0) diff *= -1;
-            if (diff < tmp_diff)
-            {
-                tmp_diff = diff;
-                result = tmp_res;
-            }
         }
     }
     emit Result(result);
@@ -87,51 +105,59 @@ QString GetPicTask::startRecognize(QString fileName)
         if ((*it).size() > 5 && r.height > 20 && r.width < 30)
         {
             filtered_contours.push_back((*it));
-            cv::rectangle(black_pic, r, cv::Scalar(255, 0, 0), 1);
+            //cv::rectangle(black_pic, r, cv::Scalar(255, 0, 0), 1);
 
-            /* COMPARE BLOCK BY BLOCK
-            this->tesseract->SetPageSegMode(tesseract::PSM_SINGLE_CHAR);
+            //this->tesseract->SetPageSegMode(tesseract::PSM_SINGLE_CHAR);
             cv::Rect rect(r);
-
-            rect.x -= 2;
-            rect.y -= 2;
-            rect += cv::Size(4, 4);
-
-            if (rect.x < 0) rect.x = 0;
-            if (rect.y < 0) rect.y = 0;
-            if (rect.x + rect.width > mat.size().width)
-                rect.width -= (rect.x + rect.width) - mat.size().width;
-            if (rect.y + rect.height > mat.size().height)
-                rect.height -= (rect.y + rect.height) - mat.size().height;
-
-            cv::rectangle(black_pic, rect, cv::Scalar(255, 0, 0), 1);
-
             cv::Mat tmp = mat(rect);
-            cv::Mat cropped = mat(rect);
+            cv::Mat cropped;
 
-            //tmp.copyTo(cropped);
+            tmp.copyTo(cropped);
             cv::blur(cropped, cropped, cv::Size(2, 2));
             cv::threshold(cropped, cropped, 195, 255, CV_THRESH_BINARY);
 
-            cv::imwrite("/Users/antoinela/BJTU_Projects/Project Software Training 1/LicenseRecognizer/build-Server-Desktop_Qt_5_2_0_clang_64bit-Debug/Server.app/Contents/MacOS/temp.jpg", cropped);
+            //QString path = "/Users/antoinela/BJTU_Projects/Project Software Training 1/";
+            //path.append(QString::number(this->tmp_count++));
+            //path.append(".jpg");
 
-            Pix *image = pixRead("/Users/antoinela/BJTU_Projects/Project Software Training 1/LicenseRecognizer/build-Server-Desktop_Qt_5_2_0_clang_64bit-Debug/Server.app/Contents/MacOS/temp.jpg");
-            this->tesseract->SetImage(image);
+            int count = 0;
+            int difference = 0;
+            int score_save = 999999;
+            QString alpha;
 
-            char *outText;
-            outText = this->tesseract->GetUTF8Text();
-            //qDebug() << "result" << outText;
-
-            unsigned long i = 0;
-            while (i < strlen(outText))
+            for (std::vector<cv::Mat>::iterator it = this->alphalist.begin(); it != this->alphalist.end(); ++it)
             {
-                if (outText[i] == '\n' || outText[i] == ' ')
+                cv::Mat compare;
+
+                (*it).copyTo(compare);
+                cv::resize(compare, compare, cropped.size(), 0, 0, cv::INTER_CUBIC);
+
+                difference = 0;
+                for (int i = 0; i < compare.size().width; i++)
                 {
-                    outText[i] = 0;
+                    for (int j = 0; j < compare.size().height; j++)
+                    {
+                        cv::Scalar color_1 = compare.at<uchar>(cv::Point(i, j));
+                        cv::Scalar color_2 = cropped.at<uchar>(cv::Point(i, j));
+
+                        if (color_1.val[0] != color_2.val[0])
+                            difference++;
+                    }
                 }
-                i++;
+
+                if (difference < score_save)
+                {
+                    alpha = this->alphaname.at(count);
+                    score_save = difference;
+
+                }
+
+                count++;
             }
-            tmp_result.append(outText); */
+
+            cv::rectangle(mat, r, cv::Scalar(255, 0, 0), 1);
+            qDebug() << "difference" << score_save << alpha;
+            //cv::imwrite(path.toStdString(), cropped);
         }
     }
     cv::drawContours(black_pic, filtered_contours, -1, cv::Scalar(255, 255, 255));
@@ -139,8 +165,13 @@ QString GetPicTask::startRecognize(QString fileName)
 
     // COMPARE ALL THE PLATE
     char *outText;
-    cv::imwrite("/Users/antoinela/BJTU_Projects/Project Software Training 1/LicenseRecognizer/build-Server-Desktop_Qt_5_2_0_clang_64bit-Debug/Server.app/Contents/MacOS/temp.jpg", black_pic);
-    Pix *image = pixRead("/Users/antoinela/BJTU_Projects/Project Software Training 1/LicenseRecognizer/build-Server-Desktop_Qt_5_2_0_clang_64bit-Debug/Server.app/Contents/MacOS/temp.jpg");
+
+    QString tmp_file_path(QDir::currentPath());
+    tmp_file_path.append(QDir::separator()).append("temp.jpg");
+    tmp_file_path = QDir::toNativeSeparators(tmp_file_path);
+
+    cv::imwrite(tmp_file_path.toStdString(), black_pic);
+    Pix *image = pixRead(tmp_file_path.toStdString().c_str());
     this->tesseract->SetImage(image);
     outText = this->tesseract->GetUTF8Text();
 
@@ -153,7 +184,7 @@ QString GetPicTask::startRecognize(QString fileName)
     qDebug() << "result" << ret_val;
 
     //cv::namedWindow(ret_val.toStdString(), cv::WINDOW_AUTOSIZE);
-    //cv::imshow(ret_val.toStdString(), black_pic);
+    //cv::imshow(ret_val.toStdString(), mat);
 
     return ret_val;
 }
