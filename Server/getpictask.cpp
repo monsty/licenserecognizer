@@ -20,26 +20,34 @@ GetPicTask::GetPicTask(QString picPath)
     letters_dir.append(QDir::separator()).append("letters");
     letters_dir = QDir::toNativeSeparators(letters_dir);
 
-    dir.cd(letters_dir);
-    tmp_list = dir.entryInfoList();
-    for (int i = 0; i < tmp_list.size(); ++i)
+    if (dir.cd(letters_dir))
     {
-        QString tmp_name = tmp_list.at(i).fileName();
-        if (tmp_name.endsWith(".jpg", Qt::CaseInsensitive) == 1)
+        tmp_list = dir.entryInfoList();
+        for (int i = 0; i < tmp_list.size(); ++i)
         {
-            cv::Mat letter;
-            QString tmp_path = "";
-            tmp_path.append(letters_dir);
-            tmp_path.append("/");
-            tmp_path.append(tmp_list.at(i).fileName());
+            QString tmp_name = tmp_list.at(i).fileName();
+            if (tmp_name.endsWith(".jpg", Qt::CaseInsensitive) == 1)
+            {
+                cv::Mat letter;
+                QString tmp_path = "";
+                tmp_path.append(letters_dir);
+                tmp_path.append("/");
+                tmp_path.append(tmp_list.at(i).fileName());
 
-            letter = cv::imread(tmp_path.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
-            this->alphalist.push_back(letter);
-            this->alphaname.push_back(tmp_list.at(i).fileName());
+                letter = cv::imread(tmp_path.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
+                this->alphalist.push_back(letter);
+                this->alphaname.push_back(tmp_list.at(i).fileName());
 
-            qDebug() << "loaded" << tmp_list.at(i).fileName();
+                qDebug() << "loaded" << tmp_list.at(i).fileName();
+            }
         }
     }
+    else
+    {
+        qDebug() << "CANNOT FIND LETTERS DIRECTORY";
+        exit(1);
+    }
+
 }
 
 void GetPicTask::run()
@@ -107,7 +115,6 @@ QString GetPicTask::startRecognize(QString fileName)
             filtered_contours.push_back((*it));
             //cv::rectangle(black_pic, r, cv::Scalar(255, 0, 0), 1);
 
-            //this->tesseract->SetPageSegMode(tesseract::PSM_SINGLE_CHAR);
             cv::Rect rect(r);
             cv::Mat tmp = mat(rect);
             cv::Mat cropped;
@@ -119,6 +126,7 @@ QString GetPicTask::startRecognize(QString fileName)
             //QString path = "/Users/antoinela/BJTU_Projects/Project Software Training 1/";
             //path.append(QString::number(this->tmp_count++));
             //path.append(".jpg");
+
 
             int count = 0;
             int difference = 0;
@@ -149,14 +157,13 @@ QString GetPicTask::startRecognize(QString fileName)
                 {
                     alpha = this->alphaname.at(count);
                     score_save = difference;
-
                 }
 
                 count++;
             }
+            qDebug() << "difference" << score_save << alpha;
 
             cv::rectangle(mat, r, cv::Scalar(255, 0, 0), 1);
-            qDebug() << "difference" << score_save << alpha;
             //cv::imwrite(path.toStdString(), cropped);
         }
     }
